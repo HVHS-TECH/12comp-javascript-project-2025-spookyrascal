@@ -1,3 +1,4 @@
+/* Reset and global styles */
 * {
     margin: 0;
     padding: 0;
@@ -12,10 +13,12 @@ body {
     align-items: center;
     flex-direction: column; 
     height: 100vh;
-    background: linear-gradient(135deg, #000428, #004e92);
     color: white;
     font-family: 'Orbitron', sans-serif;
     text-align: center;
+    position: relative;
+    background: url('https://images.pexels.com/photos/1146134/pexels-photo-1146134.jpeg?cs=srgb&amp;dl=pexels-felixmittermeier-1146134.jpg&amp;fm=jpg" alt="Space Background Photos, Download The BEST Free Space Background Stock  Photos &amp; HD Images') no-repeat center center fixed;
+    background-size: cover;
 }
 
 /* Fix canvas styling */
@@ -26,26 +29,25 @@ canvas {
     width: 100vw;
     height: 100vh;
     z-index: -1; /* Keeps the game behind the UI */
-    background: url('https://wallpapers.com/images/hd/3d-space-4900-x-1960-53qamjkn6408pv4l.jpg');
-    background-size: cover;
+    pointer-events: none; /* Prevents canvas from blocking UI interactions */
 }
 
-/* Title and subtitle styling */
+/* Title styling */
 .title {
     font-size: 5rem;
     font-weight: bold;
     text-transform: uppercase;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
     margin-top: 5%;
-    z-index: 2; 
+    z-index: 2;
 }
 
 /* Instructions styling */
 .instructions {
     font-size: 1.5rem;
-    margin-top: 20px; 
+    margin-top: 20px;
     background: rgba(0, 0, 0, 0.5);
     padding: 10px 20px;
     border-radius: 10px;
-    z-index: 2; 
+    z-index: 2;
 }
