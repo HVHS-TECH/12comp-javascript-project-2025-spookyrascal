@@ -1,23 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meteor Dash</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meteor Dash</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.play/1.1.0/p5.play.js"></script>
+  <script src="styles.css"></script>
+  
 </head>
 <body>
-    <div class="start-screen">
-        <div class="title">Meteor Dash</div>
-        <div class="instructions">
-            <span>Press 'Enter' to Start</span>
-        </div>
-<script>
-    //Copied from online https://www.w3schools.com/howto/howto_js_trigger_button_enter.asp?utm_source=chatgpt.com
- document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter' && !gameStarted) {
-        document.querySelector('.start-screen').style.display = 'none';
-        gameStarted = true;
-    }
-});
+  <h1>Press Enter to start</h1>
+  <script src="main.js"></script>
+</body>
+</html>
+
