@@ -1,1 +1,49 @@
-Hello world!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteor Dash</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.play/1.1.0/p5.play.js"></script>
+</head>
+<body>
+    <div class="start-screen">
+        <div class="title">Meteor Dash</div>
+        <div class="instructions">
+            <span>Press 'Enter' to Start</span>
+        </div>
+    </div>
+
+    <script>
+        let gameStarted = false;
+        let remmyTheRectangle;
+
+        function setup() {
+            remmyTheRectangle = createSprite(200, 150, 100, 100);
+            remmyTheRectangle.shapeColor = 'blue';
+        }
+
+        function draw() {
+            if (!gameStarted) {
+                return;
+            }
+            remmyTheRectangle.rotationSpeed = 5;
+            remmyTheRectangle.velocity.x = -11;
+            remmyTheRectangle.velocity.y += 0.1;
+            drawSprites();
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && !gameStarted) {
+                document.querySelector('.start-screen').style.display = 'none';
+                gameStarted = true;
+            }
+        });
+    </script>
+</body>
+</html>
+
+  

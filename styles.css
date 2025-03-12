@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and background */
+body {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    height: 100vh;
+    background: linear-gradient(135deg, #000428, #004e92);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+}
+
+/* Fix canvas styling */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Keeps the game behind the UI */
+    background: url('https://wallpapers.com/images/hd/3d-space-4900-x-1960-53qamjkn6408pv4l.jpg');
+    background-size: cover;
+}
+
+/* Title and subtitle styling */
+.title {
+    font-size: 5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+    margin-top: 5%;
+    z-index: 2; 
+}
+
+/* Instructions styling */
+.instructions {
+    font-size: 1.5rem;
+    margin-top: 20px; 
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 10px;
+    z-index: 2; 
+}
