@@ -1,31 +1,54 @@
-let rocket; // Declare a variable for the rocket sprite
-let backgroundSprite; // Declare a variable for the background sprite
+let gameState = "start";  // Initialize the game state
+let meteor;
 
 function setup() {
-  createCanvas(800, 600); // Set the canvas size
+  createCanvas(windowWidth, windowHeight);
 
-  // Create a background sprite where the rocket can sit
-  backgroundSprite = createSprite(width / 2, height / 2, 200, 200); // Adjust size and position
+  // Create the start button and attach the mousePressed event
+  let startButton = select('#start-button');
+  startButton.mousePressed(startGame);
 
-  // Load the rocket sprite and add it to the background sprite
-  rocket = createSprite(width / 2, height / 2);
-  rocket.addImage(loadImage('rocket.png')); 
-
-  rocket.visible = false;
+  // Create the meteor sprite
+  meteor = createSprite(width / 2, height / 2, 50, 50);
+  meteor.shapeColor = color(255, 150, 0);
 }
 
 function draw() {
-  background(200);
-  drawSprites();
-}
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Enter') {
-    startGame(); 
+  background(0);  // Clear the background
+
+  if (gameState === "start") {
+    displayStartScreen();  // Display the start screen if the game state is 'start'
+  } else if (gameState === "playing") {
+    playGame();  // Start the game when the game state is 'playing'
   }
-});
+}
+
+function displayStartScreen() {
+
+  textAlign(CENTER, CENTER);
+  fill(255);
+  textSize(32);
+  text("Meteor Rush", width / 2, height / 3);
+}
 
 function startGame() {
-  // Start your game logic here
-  console.log('Game started!');
-  rocket.visible = true;
-  rocket.velocity.x = 5; 
+    console.log("Start Game button clicked!");
+  
+    // Change the game state to 'playing'
+    gameState = "playing";
+  
+    // Hide the start button
+    let startButton = select('#start-button');
+    startButton.hide();
+
+    let title = select('.title');  
+    title.hide(); 
+  }  
+
+function playGame() {
+  meteor.position.x += random(-5, 5);
+  meteor.position.y += random(-5, 5);
+
+  drawSprites();  
+}
+

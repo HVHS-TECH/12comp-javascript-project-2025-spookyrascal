@@ -17,20 +17,20 @@ body {
     font-family: 'Orbitron', sans-serif;
     text-align: center;
     position: relative;
-    background: url('https://images.pexels.com/photos/1146134/pexels-photo-1146134.jpeg?cs=srgb&amp;dl=pexels-felixmittermeier-1146134.jpg&amp;fm=jpg" alt="Space Background Photos, Download The BEST Free Space Background Stock  Photos &amp; HD Images') no-repeat center center fixed;
+    background: url('download.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 
-/* Fix canvas styling */
 canvas {
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1; /* Keeps the game behind the UI */
-    pointer-events: none; /* Prevents canvas from blocking UI interactions */
+    z-index: 1;  
+    pointer-events: auto;  
 }
+
 
 /* Title styling */
 .title {
