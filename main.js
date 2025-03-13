@@ -11,6 +11,7 @@ function setup() {
   // Create the meteor sprite
   meteor = createSprite(width / 2, height / 2, 50, 50);
   meteor.shapeColor = color(255, 150, 0);
+  meteorImg 
 }
 
 function draw() {
