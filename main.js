@@ -1,5 +1,6 @@
 let gameState = "start";  // Initialize the game state
 let meteor;
+let meteorImg;  // Declare the meteor image variable
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -8,10 +9,12 @@ function setup() {
   let startButton = select('#start-button');
   startButton.mousePressed(startGame);
 
+  // Load the meteor image
+  meteorImg = loadImage('pngimg.com - meteor_PNG22.png');  
+
   // Create the meteor sprite
   meteor = createSprite(width / 2, height / 2, 50, 50);
-  meteor.shapeColor = color(255, 150, 0);
-  meteorImg 
+  meteor.addImage(meteorImg); 
 }
 
 function draw() {
@@ -25,7 +28,6 @@ function draw() {
 }
 
 function displayStartScreen() {
-
   textAlign(CENTER, CENTER);
   fill(255);
   textSize(32);
@@ -33,23 +35,24 @@ function displayStartScreen() {
 }
 
 function startGame() {
-    console.log("Start Game button clicked!");
-  
-    // Change the game state to 'playing'
-    gameState = "playing";
-  
-    // Hide the start button
-    let startButton = select('#start-button');
-    startButton.hide();
+  console.log("Start Game button clicked!");
 
-    let title = select('.title');  
-    title.hide(); 
-  }  
+  // Change the game state to 'playing'
+  gameState = "playing";
+
+  // Hide the start button
+  let startButton = select('#start-button');
+  startButton.hide();
+
+  let title = select('.title');  
+  title.hide();
+}
 
 function playGame() {
   meteor.position.x += random(-5, 5);
   meteor.position.y += random(-5, 5);
 
-  drawSprites();  
+  drawSprites();
 }
+
 

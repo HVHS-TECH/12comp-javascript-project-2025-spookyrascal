@@ -14,13 +14,26 @@ body {
     flex-direction: column; 
     height: 100vh;
     color: white;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Orbitron', sans-serif; /* Spacey font */
     text-align: center;
     position: relative;
-    background: url('download.jpg') no-repeat center center fixed;
+    background: url('download.jpg') no-repeat center center fixed; /* Space image URL */
     background-size: cover;
+    background-attachment: fixed;
+    animation: moveBackground 10s linear infinite;
 }
 
+/* Background Animation */
+@keyframes moveBackground {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+/* Canvas styling */
 canvas {
     position: absolute;
     top: 0;
@@ -31,23 +44,30 @@ canvas {
     pointer-events: auto;  
 }
 
-
 /* Title styling */
 .title {
     font-size: 5rem;
     font-weight: bold;
     text-transform: uppercase;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.7); /* Glowing effect */
     margin-top: 5%;
     z-index: 2;
+    color: #ffffff; 
 }
 
-/* Instructions styling */
-.instructions {
-    font-size: 1.5rem;
-    margin-top: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px 20px;
-    border-radius: 10px;
-    z-index: 2;
+.button {
+    padding: 14px 40px;
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    width: 50%;
+    background: linear-gradient(45deg, #00b3b3, #1e7d7b); /* Spacey gradient */
+    color: white;
+    border: 2px solid transparent; /* Invisible border for glowing border effect */
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 3;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.6); /* Soft initial glow */
 }
