@@ -20,7 +20,7 @@ body {
     background: url('download.jpg') no-repeat center center fixed;
     background-size: cover;
     background-attachment: fixed;
-    animation: moveBackground 100s linear infinite;
+    animation: moveBackground 30s linear infinite;
 }
 
 /* Animation for background movement */
