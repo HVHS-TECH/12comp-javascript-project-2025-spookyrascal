@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meteor Rush Game</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js" integrity="sha512-bzpp8klYroR6PFgL3RJ+VkvY5hJna7Zd38OA56peUDHSNQpSiN9lDQVnMYtcw7hoAVhbR6mAOdH+ymzg1o+G0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/addons/p5.sound.js" integrity="sha512-TU9AWtV5uUZPX8dbBAH8NQF1tSdigPRRT82vllAQ1Ke28puiqLA6ZVKxtUGlgrH6yWFnkKy+sE6luNEGH9ar0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://p5play.org/v3/planck.min.js"></script>
-  <script src="https://p5play.org/v3/p5play.js"></script>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteor Rush</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.png">
 </head>
 <body>
-  <h1 class="title">Meteor Rush</h1>
-
-  <div id="start-screen">
-    <button id="start-button">Start Game</button>
-  </div>
-
-  <script src="main.js"></script>
+    <div class="title">Meteor Rush</div>
+    <div id="start-screen">
+        <button id="start-button">Start Game</button>
+        <div id="instructions">
+            <span id="instructions-icon">?</span>
+            <div id="instructions-text">Use arrow keys to control the meteor. Dodge obstacles and reach Earth!</div>
+        </div>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <script src="main.js"></script>
 </body>
 </html>
+
+
+
+
+
 
 

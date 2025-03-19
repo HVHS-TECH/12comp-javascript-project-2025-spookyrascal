@@ -11,19 +11,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; 
+    flex-direction: column;
     height: 100vh;
     color: white;
-    font-family: 'Orbitron', sans-serif; 
+    font-family: 'Orbitron', sans-serif;
     text-align: center;
     position: relative;
-    background: url('download.jpg') no-repeat center center fixed; 
+    background: url('download.jpg') no-repeat center center fixed;
     background-size: cover;
     background-attachment: fixed;
-    animation: moveBackground 10s linear infinite;
+    animation: moveBackground 100s linear infinite;
 }
 
-/* found online dont ask bout it */
+/* Animation for background movement */
 @keyframes moveBackground {
     0% {
         background-position: 0 0;
@@ -40,8 +40,8 @@ canvas {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 1;  
-    pointer-events: auto;  
+    z-index: 1;
+    pointer-events: auto;
 }
 
 /* Title styling */
@@ -52,20 +52,75 @@ canvas {
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.7); /* Glowing effect */
     margin-top: 5%;
     z-index: 2;
-    color: #ffffff; 
+    color: #ffffff;
 }
 
-.button {
-    padding: 14px 40px;
+/* Center the start screen container with more space for the button */
+#start-screen {
+    position: absolute;
+    top: 60%; /* Adjust to position the button lower */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Button styling */
+#start-button {
+    padding: 18px 45px;
     border-radius: 12px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 20px;
-    width: 50%;
-    color: rgb(0, 0, 0);
-    border: 2px solid transparent; 
+    font-size: 24px;
+    width: auto;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 3px solid #fff;
+    cursor: pointer;
+    margin-top: 40px; /* Space between title and button */
     transition: all 0.4s ease;
-    position: relative;
-    z-index: 3;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Subtle glow effect */
+}
+
+#start-button:hover {
+    background-color: #444;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8); /* hover glow */
+}
+
+/* Button active state */
+#start-button:active {
+    transform: scale(0.95);
+}
+
+/* Instructions box */
+#instructions {
+    font-size: 16px;
+    color: white;
+    margin-top: 20px;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+#instructions-icon {
+    cursor: pointer;
+    font-size: 30px;
+    margin-right: 10px;
+}
+
+/* Instructions text */
+#instructions-text {
+    font-size: 16px;
+}
+
+/* Score styling */
+#score {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: white;
 }
