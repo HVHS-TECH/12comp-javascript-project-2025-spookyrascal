@@ -12,15 +12,21 @@
     <div class="title">Meteor Rush</div>
     <div id="start-screen">
         <button id="START_BUTTON">Start Game</button>
+    </div>    
         <div id="instructions">
             <span id="instructions-icon">?</span>
             <div id="instructions-text">Use arrow keys to control the meteor. Dodge obstacles and reach Earth!</div>
         </div>
-    </div>
-    <canvas id="gameCanvas"></canvas>
-    <script src="main.js"></script>
-</body>
-</html>
+
+        <div id="game-over-screen" style="display: none;">
+            <h1 id="game-over-text"></h1>
+            <button id="RESTART_BUTTON">Restart</button>
+        </div>
+    
+        <canvas id="gameCanvas"></canvas>
+        <script src="main.js"></script>
+    </body>
+    </html>
 
 
 

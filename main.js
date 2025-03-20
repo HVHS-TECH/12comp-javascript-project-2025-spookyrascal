@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const CTX = CANVAS.getContext("2d");
     const START_BUTTON = document.getElementById("START_BUTTON");
     const START_SCREEN = document.getElementById("start-screen");
+    const GAME_OVER_SCREEN = document.getElementById("game-over-screen");
+    const GAME_OVER_TEXT = document.getElementById("game-over-text");
+    const RESTART_BUTTON = document.getElementById("RESTART_BUTTON");
 
     CANVAS.width = window.innerWidth;
     CANVAS.height = window.innerHeight;
@@ -19,11 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // 🔥 GAME CONSTANTS
     // ********* //
     const EARTH_SCORE = 5;
-    const OBSTACLE_FREQ = 0.02; // Lowered slightly to prevent too many obstacles
+    const OBSTACLE_FREQ = 0.02;
     const HEART_SIZE = 30;
     const OBSTACLE_SPEED = 4;
-    const METEOR_SIZE = 80; // Increased meteor size
-    let easterEggAppeared = false;
+    const METEOR_SIZE = 80;
+    let easterEggAppeared = true;
 
     // ********* //
     // 🖼️ LOAD IMAGES SAFELY
@@ -74,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         move() {
             if (moveUp) this.dy = -4;
             else if (moveDown) this.dy = 4;
-            else this.dy = 0; // Stops movement when no keys are pressed
+            else this.dy = 0;
 
             this.y += this.dy;
             this.y = Math.max(0, Math.min(CANVAS.height - this.size, this.y));
@@ -94,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
             this.image = image;
             this.speed = Math.random() * 2 + 3;
             this.angle = 0;
-            this.rotation = Math.random() * 0.05 - 0.025; // Limited rotation speed
+            this.rotation = Math.random() * 0.05 - 0.025;
         }
         move() { this.x -= this.speed; }
         draw() {
@@ -112,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ********* //
     function startGame() {
         START_SCREEN.style.display = "none";
+        GAME_OVER_SCREEN.style.display = "none";
         gameRunning = true;
         meteor = new Meteor();
         obstacles = [];
@@ -198,5 +202,22 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (e.key === "ArrowDown") moveDown = false;
     });
 
+    // ********* //
+    // 🏁 END GAME
+    // ********* //
+    function endGame(message) {
+        gameRunning = false;
+        GAME_OVER_TEXT.textContent = message;
+        GAME_OVER_SCREEN.style.display = "block";
+    }
+
+    // ********* //
+    // 🔁 RESTART GAME
+    // ********* //
+    RESTART_BUTTON.addEventListener("click", startGame);
+
+    // ********* //
+    // 🎬 START BUTTON
+    // ********* //
     START_BUTTON.addEventListener("click", startGame);
 });
