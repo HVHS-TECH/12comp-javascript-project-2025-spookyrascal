@@ -3,98 +3,111 @@
 // - Obstacle Class: (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes)
 // - End Game Detection and Score Update: (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_game_with_canvas)
 
-//*********//
+// ********* //
 // 🌍 GAME SETUP
-//*********//
+// ********* //
 const CANVAS = document.getElementById('gameCanvas');
 const CTX = CANVAS.getContext('2d');
-const START_BUTTON = document.getElementById('start-button');
+const START_BUTTON = document.getElementById('START_BUTTON'); 
 const START_SCREEN = document.getElementById('start-screen');
 
 CANVAS.width = window.innerWidth;
 CANVAS.height = window.innerHeight;
 
-//*********//
+// ********* //
 // 🔥 GAME CONSTANTS
-//*********//
-const EARTH_SCORE = 3;
-const OBSTACLE_FREQ = 0.03; // Higher = more obstacles
+// ********* //
+const EARTH_SCORE = 10;
+const OBSTACLE_FREQ = 0.02; // Less frequent obstacles
 const HEART_SIZE = 30;
-const OBSTACLE_SPEED = 5;
+const OBSTACLE_SPEED = 4; 
+const METEOR_SIZE = 80;  // Increased meteor size
+let easterEggAppeared = false;
 
-//*********//
+// ********* //
 // 🖼️ LOAD IMAGES SAFELY
-//*********//
+// ********* //
 const IMAGE_PATHS = {
     METEOR: 'meteor.jpeg',
-    OBSTACLE: 'spacerock.jpeg',
+    OBSTACLE1: 'spacerock.jpeg',
     EARTH: 'earth.jpeg',
-    HEART: 'Adobe Express - file.png',
+    HEART: 'heart.png',
     TESLA: 'elon.png',
     ENTERPRISE: 'enterprise.png',
     TEAPOT: 'teapot.png'
 };
 
-const IMAGES = {}; // Store loaded images here
+const IMAGES = {};
 let imagesLoaded = 0;
 const totalImages = Object.keys(IMAGE_PATHS).length;
 
-// Load images & track when they are ready
 for (const key in IMAGE_PATHS) {
     IMAGES[key] = new Image();
     IMAGES[key].src = IMAGE_PATHS[key];
     IMAGES[key].onload = () => {
         imagesLoaded++;
-        if (imagesLoaded === totalImages) {
-            console.log('✅ All images loaded successfully!');
-        }
     };
-    IMAGES[key].onerror = () => console.error(`❌ Failed to load image: ${IMAGE_PATHS[key]}`);
 }
 
-//*********//
+// ********* //
 // 🏆 GAME VARIABLES
-//*********//
+// ********* //
 let meteor, obstacles = [], gameInterval, gameRunning = false;
 let score = 0, lives = 3, earthX;
+let movingUp = false, movingDown = false;
 
-//*********//
+// ********* //
 // ☄️ METEOR CLASS
-//*********//
+// ********* //
 class Meteor {
     constructor() {
         this.x = 100;
         this.y = CANVAS.height / 2;
-        this.size = 20;
+        this.size = METEOR_SIZE;
         this.dy = 0;
     }
     move() {
+        if (movingUp) this.dy = -5;
+        else if (movingDown) this.dy = 5;
+        else this.dy = 0;
+        
         this.y += this.dy;
         this.y = Math.max(0, Math.min(CANVAS.height - this.size, this.y));
     }
-    // Removed the grow method to stop the meteor from increasing in size
-    draw() { CTX.drawImage(IMAGES.METEOR, this.x, this.y, this.size, this.size); }
-    setDirection(speed) { this.dy = speed; }
-}
-
-//*********//
-// 🛰️ OBSTACLE CLASS
-//*********//
-class Obstacle {
-    constructor(image, width, height) {
-        this.x = CANVAS.width;
-        this.y = Math.random() * (CANVAS.height - height);
-        this.width = width;
-        this.height = height;
-        this.image = image;
+    draw() {
+        CTX.drawImage(IMAGES.METEOR, this.x, this.y, this.size, this.size);
     }
-    move() { this.x -= OBSTACLE_SPEED; }
-    draw() { CTX.drawImage(this.image, this.x, this.y, this.width, this.height); }
 }
 
-//*********//
-// 🎮 GAME START (Wait for Images)
-//*********//
+// ********* //
+// 🛰️ OBSTACLE CLASS
+// ********* //
+class Obstacle {
+    constructor(image) {
+        this.x = CANVAS.width;
+        this.y = Math.random() * (CANVAS.height - 80);
+        this.width = Math.random() * 40 + 60;
+        this.height = this.width;
+        this.image = image;
+        this.speed = Math.random() * 2 + 3; // Smooth speed variation
+        this.rotation = Math.random() * 0.05 - 0.025; // More subtle rotation
+        this.angle = 0;
+    }
+    move() {
+        this.x -= this.speed;
+    }
+    draw() {
+        CTX.save();
+        CTX.translate(this.x + this.width / 2, this.y + this.height / 2);
+        CTX.rotate(this.angle);
+        CTX.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height);
+        CTX.restore();
+    }
+}
+
+// ********* //
+// 🎮 GAME START
+// ********* //
 START_BUTTON.addEventListener('click', () => {
     if (imagesLoaded < totalImages) {
         console.warn('⏳ Waiting for all images to load...');
@@ -104,52 +117,45 @@ START_BUTTON.addEventListener('click', () => {
 });
 
 function startGame() {
-    START_SCREEN.style.display = 'none'; // Hide the title
+    START_SCREEN.style.display = 'none'; // Hide title screen
     gameRunning = true;
     meteor = new Meteor();
     obstacles = [];
     score = 0;
     lives = 3;
     earthX = CANVAS.width - 200;
-
     gameInterval = setInterval(updateGame, 1000 / 60);
 }
 
-//*********//
+// ********* //
 // 🔄 GAME LOOP
-//*********//
+// ********* //
 function updateGame() {
     if (!gameRunning) return;
-    
+
     CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
-    
+
     // Move & draw meteor
     meteor.move();
     meteor.draw();
 
     // Generate obstacles
     if (Math.random() < OBSTACLE_FREQ) {
-        obstacles.push(new Obstacle(IMAGES.OBSTACLE, 50, 50));
-    }
-
-    // Spawn Easter Egg sprites (Tesla, Enterprise, or Teapot) with lower frequency
-    if (score >= EARTH_SCORE - 20 && Math.random() < 0.01) {
-        const easterEggs = [IMAGES.TESLA, IMAGES.ENTERPRISE, IMAGES.TEAPOT];
-        obstacles.push(new Obstacle(easterEggs[Math.floor(Math.random() * easterEggs.length)], 60, 60));
+        let image = Math.random() > 0.5 ? IMAGES.OBSTACLE1 : IMAGES.OBSTACLE2;
+        obstacles.push(new Obstacle(image));
     }
 
     // Move & draw obstacles
     obstacles.forEach((obstacle, index) => {
         obstacle.move();
+        obstacle.angle += obstacle.rotation;
         obstacle.draw();
 
-        // Collision Detection
         if (checkCollision(meteor, obstacle)) {
             obstacles.splice(index, 1);
             if (--lives <= 0) endGame('GAME OVER! Your meteor was obliterated.');
         }
 
-        // Remove obstacles off-screen & increase score
         if (obstacle.x + obstacle.width < 0) {
             obstacles.splice(index, 1);
             score++;
@@ -165,15 +171,14 @@ function updateGame() {
     // Display Score & Lives
     drawHUD();
 
-    // Win Condition
     if (score >= EARTH_SCORE && meteor.x + meteor.size >= earthX) {
         checkWinCondition();
     }
 }
 
-//*********//
+// ********* //
 // 🎯 CHECK COLLISION
-//*********//
+// ********* //
 function checkCollision(m, o) {
     return (
         m.x + m.size > o.x &&
@@ -183,55 +188,50 @@ function checkCollision(m, o) {
     );
 }
 
-//*********//
+// ********* //
 // 🏆 CHECK WIN CONDITION
-//*********//
+// ********* //
 function checkWinCondition() {
     let message = 
-        (meteor.size >= 60) ? 'You caused a **mass extinction event**!' :
-        (meteor.size >= 30) ? 'You made a **giant crater**!' :
+        (meteor.size >= 80) ? 'You caused a **mass extinction event**!' :
+        (meteor.size >= 40) ? 'You made a **giant crater**!' :
         'Your meteor **burned up in the atmosphere**!';
     
     endGame(message);
 }
 
-//*********//
+// ********* //
 // 🎮 END GAME
-//*********//
+// ********* //
 function endGame(message) {
     clearInterval(gameInterval);
     alert(message);
     START_SCREEN.style.display = 'flex';
+    gameRunning = false;
 }
 
-//*********//
+// ********* //
 // 🖥️ DRAW HUD (Score & Lives)
-//*********//
+// ********* //
 function drawHUD() {
     CTX.fillStyle = 'white';
-    CTX.font = '20px Arial';
+    CTX.font = '20px Orbitron';
     CTX.fillText(`Score: ${score}`, 50, 30);
 
-    // Show Hearts
     for (let i = 0; i < lives; i++) {
         CTX.drawImage(IMAGES.HEART, 10 + i * 40, 50, HEART_SIZE, HEART_SIZE);
     }
 }
 
-//*********//
+// ********* //
 // ⬆️⬇️ CONTROL METEOR WITH ARROW KEYS
-//*********//
+// ********* //
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowUp') {
-        meteor.setDirection(-4);
-    } else if (e.key === 'ArrowDown') {
-        meteor.setDirection(4);
-    }
+    if (e.key === 'ArrowUp') movingUp = true;
+    if (e.key === 'ArrowDown') movingDown = true;
 });
 
-// When key is released, stop meteor movement
 document.addEventListener('keyup', (e) => {
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-        meteor.setDirection(0);
-    }
+    if (e.key === 'ArrowUp') movingUp = false;
+    if (e.key === 'ArrowDown') movingDown = false;
 });
