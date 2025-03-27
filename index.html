@@ -4,35 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meteor Rush</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="icon.png">
 </head>
 <body>
-    <div class="title">Meteor Rush</div>
-    <div id="start-screen">
-        <button id="START_BUTTON">Start Game</button>
-    </div>    
-    <div id="instructions">
-        <span id="instructions-icon">?</span>
-        <div id="instructions-text">Use arrow keys to control the meteor. Dodge obstacles and reach Earth!</div>
+    <div class="start-screen">
+        <h1 class="game-title">Meteor Rush</h1>
+        <button class="start-btn" onclick="startGame()">Start Game</button>
+        <button class="instructions-btn" onclick="showInstructions()">Instructions</button>
     </div>
 
-    <div id="game-over-screen" style="display: none;">
-        <h1 id="game-over-text"></h1>
-        <button id="RESTART_BUTTON">Restart</button>
+    <div id="instructions-modal" class="instructions-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeInstructions()">&times;</span>
+            <h2>Instructions</h2>
+            <p>Use the arrow keys to move your meteor. Avoid rocks and try reach earth!</p>
+        </div>
     </div>
 
     <canvas id="gameCanvas"></canvas>
-    <script src="main.js"></script>
+
+    <script src="main.js" defer></script>
 </body>
 </html>
-
-
-
-
-
-
-
 
 

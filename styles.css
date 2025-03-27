@@ -1,137 +1,140 @@
-/* Reset and global styles */
+/* General Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body and background */
+/* Background and Body */
 body {
-    overflow: hidden;
+    font-family: 'Orbitron', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     height: 100vh;
-    color: white;
-    font-family: 'Orbitron', sans-serif;
+    color: #D3D3D3; /* Light Gray */
     text-align: center;
-    position: relative;
-    background: url('download.jpg') no-repeat center center fixed;
-    background-size: cover;
-    background-attachment: fixed;
-    animation: moveBackground 30s linear infinite;
+    overflow: hidden;
+    background: url('download.jpg');
+    animation: moveBackground 10s linear infinite;
 }
 
 /* Animation for background movement */
 @keyframes moveBackground {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 100% 100%;
-    }
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 100%; }
 }
 
-/* Canvas styling */
-canvas {
+/* Start screen styling */
+.start-screen {
     position: absolute;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+.game-title {
+    font-size: 70px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #4f9ca5, #62b3d9, #2e2e8c); /* Space-themed gradient */
+    color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.8);
+}
+
+/* Start and Instructions Button Styles */
+.start-btn, .instructions-btn {
+    padding: 15px 30px;
+    font-size: 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    border: none;
+    background-color: rgba(255, 255, 255, 0.3); /* Transparent buttons */
+    color: white;
+}
+
+.start-btn:hover {
+    background-color: #1F4068; /* Deep Blue */
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+.start-btn:active {
+    transform: scale(1);
+}
+
+.instructions-btn {
+    background-color: rgba(255, 255, 255, 0.3); /* Transparent button */
+    color: white;
+    margin-top: 15px;
+}
+
+.instructions-btn:hover {
+    background-color: #F7C08D; /* Soft Yellow */
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+.instructions-btn:active {
+    transform: scale(1);
+}
+
+/* Instructions Modal */
+.instructions-modal {
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1;
-    pointer-events: auto;
-}
-
-/* Title styling */
-.title {
-    font-size: 5rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.7); /* Glowing effect */
-    margin-top: 5%;
-    z-index: 2;
-    color: #ffffff;
-}
-
-/* Center the start screen container with more space for the button */
-#start-screen {
-    position: absolute;
-    top: 60%; /* Adjust to position the button lower */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
     align-items: center;
+    color: white;
 }
 
-/* Button styling */
-#START_BUTTON {
-    padding: 18px 45px;
-    border-radius: 12px;
+.modal-content {
+    background-color: rgba(31, 64, 104, 0.9); /* Deep blue */
+    padding: 20px;
+    border-radius: 10px;
     text-align: center;
-    font-size: 24px;
-    width: auto;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.7);
-    border: 3px solid #fff;
-    cursor: pointer;
-    margin-top: 40px; /* Space between title and button */
-    transition: all 0.4s ease;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Subtle glow effect */
+    width: 70%;
+    max-width: 500px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
 }
 
-#START_BUTTON:hover {
-    background-color: #444;
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8); /* hover glow */
-}
-
-/* Button active state */
-#START_BUTTON:active {
-    transform: scale(0.95);
-}
-
-/* Instructions box */
-#instructions {
-    font-size: 16px;
-    color: white;
-    margin-top: 20px;
-    z-index: 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-#instructions-icon {
-    cursor: pointer;
-    font-size: 30px;
-    margin-right: 10px;
-}
-
-/* Instructions text */
-#instructions-text {
-    font-size: 16px;
-}
-
-/* Game Over screen */
-#game-over-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     font-size: 24px;
     color: white;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #F7C08D; /* Soft Yellow */
+}
+
+/* Canvas (initially hidden) */
+#gameCanvas {
+    display: none;
+    width: 100%;
+    height: 100%;
 }
 
 /* Score styling */
-#score {
+.score {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 20px;
+    top: 20px;
+    left: 20px;
+    font-size: 32px;
     color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 1);
 }

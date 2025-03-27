@@ -1,163 +1,182 @@
-// Most code referenced from the following sources:
-// - Collision Detection: (https://www.geeksforgeeks.org/collision-detection-in-a-2d-game-using-javascript/)
-// - Obstacle Class: (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes)
-// - End Game Detection and Score Update: (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_game_with_canvas)
-// Wait for the DOM to load before starting the game
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // **🎮 CANVAS AND DOM ELEMENTS**
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-    const startButton = document.getElementById("START_BUTTON");
-    const startScreen = document.getElementById("start-screen");
-    const gameOverScreen = document.getElementById("game-over-screen");
-    const restartButton = document.getElementById("RESTART_BUTTON");
-    const gameOverText = document.getElementById("game-over-text");
+/*
+ * References:
+ * - p5.js Documentation: https://p5js.org/reference/
+ * - loadImage() Function: https://p5js.org/reference/#/p5/loadImage
+ * - createButton() Function: https://p5js.org/reference/#/p5/createButton
+ * - hide() Function: https://p5js.org/reference/#/p5.Element/hide
+ * - frameRate() Function: https://p5js.org/reference/#/p5/frameRate
+ * - image() Function: https://p5js.org/reference/#/p5/image
+ * - Collision Detection: (https://www.geeksforgeeks.org/collision-detection-in-a-2d-game-using-javascript/)
+ * - Obstacle Class: (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes)
+ * - End Game Detection and Score Update: (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_game_with_canvas)
+ */
 
-    // **🛠️ GAME SETTINGS**
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    let meteor, obstacles = [], score = 0, lives = 3;
-    let gameInterval, gameRunning = false;
+document.addEventListener('DOMContentLoaded', () => {
+    const startButton = document.querySelector('.start-btn');
+    const instructionsButton = document.querySelector('.instructions-btn');
+    const startScreen = document.querySelector('.start-screen');
+    const instructionsModal = document.getElementById('instructions-modal');
+    const closeBtn = document.querySelector('.close-btn');
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
 
-    // **🖼️ LOAD GAME IMAGES**
+    let gameStarted = false;
+
+    // Game variables
+    let player = { x: 100, y: 100, width: 50, height: 50, speed: 5, dy: 0 };
+    let obstacles = [];
+    let score = 0;
+    let lives = 3;
+
+    // Load player and obstacle images
+    const playerImage = new Image();
+    playerImage.src = 'meteor.jpeg';  // Replace with the correct path to your player sprite
+
     const meteorImage = new Image();
-    meteorImage.src = "meteor.jpeg";
-    
-    const obstacleImage = new Image();
-    obstacleImage.src = "spacerock.jpeg";
-    
-    const earthImage = new Image();
-    earthImage.src = "earth.jpeg";
-    
-    // **🌑 METEOR CLASS**
-    class Meteor {
-        constructor() {
-            this.x = 100;
-            this.y = canvas.height / 2;
-            this.size = 80;
-            this.dy = 0;
-        }
-
-        // Move the meteor based on user input
-        move() {
-            if (moveUp) this.dy = -4;
-            else if (moveDown) this.dy = 4;
-            else this.dy = 0;
-
-            // Keep meteor within the canvas bounds
-            this.y += this.dy;
-            this.y = Math.max(0, Math.min(canvas.height - this.size, this.y));
-        }
-
-        // Draw the meteor on the canvas
-        draw() {
-            ctx.drawImage(meteorImage, this.x, this.y, this.size, this.size);
-        }
-    }
-
-    // **🪐 OBSTACLE CLASS**
-    class Obstacle {
-        constructor() {
-            this.x = canvas.width;
-            this.y = Math.random() * (canvas.height - 50);
-            this.width = 50;
-            this.height = 50;
-            this.speed = Math.random() * 2 + 3;
-        }
-
-        // Move the obstacle to the left
-        move() {
-            this.x -= this.speed;
-        }
-
-        // Draw the obstacle on the canvas
-        draw() {
-            ctx.drawImage(obstacleImage, this.x, this.y, this.width, this.height);
-        }
-    }
-
-    // **🔁 RESTART GAME**
+    meteorImage.src = 'spacerock.jpeg'; // Replace with the correct path to your meteor sprite
 
     // Start the game when the button is clicked
+    startButton.addEventListener('click', startGame);
+
+    // Show instructions when the instructions button is clicked
+    instructionsButton.addEventListener('click', showInstructions);
+
+    // Close instructions modal
+    closeBtn.addEventListener('click', closeInstructions);
+
+    // Start the game setup
     function startGame() {
+        gameStarted = true;
+        startScreen.style.display = 'none';
+        canvas.style.display = 'block';
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
         score = 0;
         lives = 3;
-        gameRunning = true;
-        gameOverScreen.style.display = "none";
-        startScreen.style.display = "none";
-
-        meteor = new Meteor();
         obstacles = [];
-        gameInterval = setInterval(gameLoop, 1000 / 60);  // Run game at 60 FPS
+        player.x = 100;
+        player.y = 100;
+        gameLoop(); // Start the game loop
     }
 
-    // Show the game over screen when the game ends
-    function gameOver() {
-        clearInterval(gameInterval);
-        gameRunning = false;
-        gameOverScreen.style.display = "block";
-        gameOverText.textContent = `Game Over! Score: ${score}`;
+    // Show instructions modal
+    function showInstructions() {
+        instructionsModal.style.display = 'flex';
     }
 
-    // **🔄 GAME LOOP (UPDATE & RENDER)**
+    // Close instructions modal
+    function closeInstructions() {
+        instructionsModal.style.display = 'none';
+    }
+
+    // Game loop (called every frame)
     function gameLoop() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear canvas
+        if (!gameStarted) return;
 
-        meteor.move();  // Move meteor
-        meteor.draw();  // Draw meteor
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
 
-        // Spawn new obstacles randomly
-        if (Math.random() < 0.02) {
-            obstacles.push(new Obstacle());
+        // Draw the player (using sprite image)
+        ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
+
+        // Handle obstacles
+        handleObstacles();
+
+        // Handle movement
+        handleMovement();
+
+        // Display score and lives
+        displayScore();
+        displayLives();
+
+        requestAnimationFrame(gameLoop); // Keep the game loop running
+    }
+
+    // Handle the player's movement with smooth transitions (only up and down)
+    function handleMovement() {
+        player.y += player.dy;
+
+        // Limit movement within the canvas
+        if (player.y < 0) player.y = 0;
+        if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') player.dy = -player.speed;  // Move up
+            if (e.key === 'ArrowDown') player.dy = player.speed; // Move down
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') player.dy = 0; // Stop movement
+        });
+    }
+
+    // Handle obstacles
+    function handleObstacles() {
+        if (Math.random() < 0.01) {
+            let obstacle = { x: canvas.width, y: Math.random() * canvas.height, width: 50, height: 50 };
+            obstacles.push(obstacle);
         }
 
-        // Move and draw each obstacle
+        // Draw obstacles (using sprite image)
         obstacles.forEach((obstacle, index) => {
-            obstacle.move();
-            obstacle.draw();
+            obstacle.x -= 3; // Move obstacle to the left
 
-            // Check for collisions with meteor
-            if (meteor.x + meteor.size > obstacle.x && meteor.x < obstacle.x + obstacle.width &&
-                meteor.y + meteor.size > obstacle.y && meteor.y < obstacle.y + obstacle.height) {
-                lives--;
-                obstacles.splice(index, 1);
-                if (lives <= 0) gameOver();
+            // Draw the obstacle
+            ctx.drawImage(meteorImage, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+
+            // Check for collisions
+            if (isCollision(player, obstacle)) {
+                console.log("Player hit an obstacle!");
+                loseLife();
+                obstacles.splice(index, 1); // Remove the obstacle
             }
 
-            // Remove obstacles that are off-screen
-            if (obstacle.x + obstacle.width < 0) {
+            // Remove obstacles that go off-screen
+            if (obstacle.x < 0) {
                 obstacles.splice(index, 1);
             }
         });
+    }
 
-        // Display score on the screen
-        ctx.font = "30px Arial";
-        ctx.fillText(`Score: ${score}`, 10, 30);
+    // Collision detection
+    function isCollision(player, obstacle) {
+        return player.x < obstacle.x + obstacle.width &&
+               player.x + player.width > obstacle.x &&
+               player.y < obstacle.y + obstacle.height &&
+               player.y + player.height > obstacle.y;
+    }
 
-        // Increase score if meteor passes Earth
-        if (meteor.x > canvas.width - 200) {
-            score += 10;
+    // Display the score
+    function displayScore() {
+        ctx.font = '30px Arial';
+        ctx.fillStyle = 'white';
+        ctx.fillText(`Score: ${score}`, 20, 30);
+    }
+
+    // Display the number of lives
+    function displayLives() {
+        ctx.font = '30px Arial';
+        ctx.fillStyle = 'white';
+        ctx.fillText(`Lives: ${lives}`, canvas.width - 150, 30);
+    }
+
+    // Decrease a life when the player hits an obstacle
+    function loseLife() {
+        lives--;
+        if (lives <= 0) {
+            gameOver();
         }
     }
 
-    // **🎮 EVENT LISTENERS**
-    
-    // Restart the game when the restart button is clicked
-    restartButton.addEventListener("click", startGame);
-
-    // Control meteor movement using arrow keys
-    let moveUp = false, moveDown = false;
-    window.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowUp") moveUp = true;
-        if (e.key === "ArrowDown") moveDown = true;
-    });
-    window.addEventListener("keyup", (e) => {
-        if (e.key === "ArrowUp") moveUp = false;
-        if (e.key === "ArrowDown") moveDown = false;
-    });
-
-    // Start game when the start button is clicked
-    startButton.addEventListener("click", startGame);
+    // End the game when lives run out
+    function gameOver() {
+        gameStarted = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = '50px Arial';
+        ctx.fillStyle = 'red';
+        ctx.fillText('GAME OVER', canvas.width / 2 - 150, canvas.height / 2);
+        ctx.font = '30px Arial';
+        ctx.fillStyle = 'white';
+        ctx.fillText(`Final Score: ${score}`, canvas.width / 2 - 100, canvas.height / 2 + 50);
+    }
 });
+
