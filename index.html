@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meteor Rush</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meteor Rush</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="start-screen">
-        <h1 class="game-title">Meteor Rush</h1>
-        <button class="start-btn" onclick="startGame()">Start Game</button>
-        <button class="instructions-btn" onclick="showInstructions()">Instructions</button>
+  <div class="start-screen">
+    <h1>Meteor Rush</h1>
+    <button class="start-btn">Start</button>
+    <button class="instructions-btn">?</button>
+  </div>
+
+  <canvas id="gameCanvas"></canvas>
+
+  <div id="instructions-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>How to Play</h2>
+      <ul>
+        <li>⬆️ Use <strong>Arrow Up</strong> to go up</li>
+        <li>⬇️ Use <strong>Arrow Down</strong> to go down</li>
+        <li>🅿️ Press <strong>P</strong> or <strong>Esc</strong> to pause</li>
+        <li>🪨 Avoid asteroids and reach 🌍 Earth</li>
+        <li>➕ Points for passing asteroids</li>
+        <li>➖ Lose points and lives for hitting them</li>
+      </ul>
     </div>
+  </div>
 
-    <div id="instructions-modal" class="instructions-modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeInstructions()">&times;</span>
-            <h2>Instructions</h2>
-            <p>Use the arrow keys to move your meteor. Avoid rocks and try reach earth!</p>
-        </div>
-    </div>
+  <div class="pause-overlay">PAUSED</div>
 
-    <canvas id="gameCanvas"></canvas>
-
-    <script src="main.js" defer></script>
+  <script src="main.js"></script>
 </body>
 </html>
+

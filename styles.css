@@ -1,140 +1,107 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Background and Body */
+/* Body with animated background (URL-based) */
 body {
-    font-family: 'Orbitron', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #D3D3D3; /* Light Gray */
-    text-align: center;
-    overflow: hidden;
-    background: url('download.jpg');
-    animation: moveBackground 10s linear infinite;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  background: url('download.jpg') no-repeat center center fixed;
+  background-size: cover;
+  animation: moveBackground 10s linear infinite; /* Animation for movement */
 }
 
-/* Animation for background movement */
 @keyframes moveBackground {
-    0% { background-position: 0 0; }
-    100% { background-position: 100% 100%; }
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
 }
 
-/* Start screen styling */
+/* Start Screen */
 .start-screen {
-    position: absolute;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Slight transparency */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
 }
 
-.game-title {
-    font-size: 70px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    background: linear-gradient(45deg, #4f9ca5, #62b3d9, #2e2e8c); /* Space-themed gradient */
-    color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.8);
+.start-screen h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
 }
 
-/* Start and Instructions Button Styles */
 .start-btn, .instructions-btn {
-    padding: 15px 30px;
-    font-size: 24px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-    border: none;
-    background-color: rgba(255, 255, 255, 0.3); /* Transparent buttons */
-    color: white;
+  padding: 15px 30px;
+  margin: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: #444;
+  color: white;
+  transition: background 0.3s;
 }
 
-.start-btn:hover {
-    background-color: #1F4068; /* Deep Blue */
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+.start-btn:hover, .instructions-btn:hover {
+  background: #666;
 }
 
-.start-btn:active {
-    transform: scale(1);
+/* Game Canvas */
+#gameCanvas {
+  display: none;
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.instructions-btn {
-    background-color: rgba(255, 255, 255, 0.3); /* Transparent button */
-    color: white;
-    margin-top: 15px;
-}
-
-.instructions-btn:hover {
-    background-color: #F7C08D; /* Soft Yellow */
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-}
-
-.instructions-btn:active {
-    transform: scale(1);
-}
-
-/* Instructions Modal */
-.instructions-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
-    color: white;
+/* Modal (Instructions) */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.75);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-    background-color: rgba(31, 64, 104, 0.9); /* Deep blue */
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    width: 70%;
-    max-width: 500px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  background-color: #1a1a1a;
+  color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 0 20px #000;
+  position: relative;
+  text-align: left;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content ul {
+  padding-left: 20px;
 }
 
 .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
+  color: #fff;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .close-btn:hover {
-    color: #F7C08D; /* Soft Yellow */
-}
-
-/* Canvas (initially hidden) */
-#gameCanvas {
-    display: none;
-    width: 100%;
-    height: 100%;
-}
-
-/* Score styling */
-.score {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 32px;
-    color: white;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 1);
+  color: #f00;
 }
