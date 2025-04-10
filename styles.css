@@ -7,6 +7,7 @@ body {
   background: url('download.jpg') no-repeat center center fixed;
   background-size: cover;
   animation: moveBackground 10s linear infinite; /* Animation for movement */
+    font-family: 'Orbitron', sans-serif;
 }
 
 @keyframes moveBackground {
@@ -31,8 +32,11 @@ body {
 .start-screen h1 {
   font-size: 3rem;
   margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5); /* Glowing effect */
 }
 
+/* Space-Themed Buttons */
 .start-btn, .instructions-btn {
   padding: 15px 30px;
   margin: 10px;
@@ -40,13 +44,17 @@ body {
   cursor: pointer;
   border: none;
   border-radius: 8px;
-  background: #444;
+  background: linear-gradient(45deg, #4e2a84, #2e1a5b); /* Spacey gradient with purple and dark blue */
   color: white;
-  transition: background 0.3s;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8); /* Subtle glow effect */
+  transition: background 0.3s, transform 0.2s ease-in-out;
 }
 
 .start-btn:hover, .instructions-btn:hover {
-  background: #666;
+  background: linear-gradient(45deg, #8e3a8e, #4e2a84); /* Darker gradient for hover effect */
+  transform: scale(1.05); /* Slight scale up effect on hover */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); /* Glowing effect around buttons */
 }
 
 /* Game Canvas */
@@ -86,6 +94,8 @@ body {
 
 .modal-content h2 {
   margin-top: 0;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8); /* Subtle glow effect */
 }
 
 .modal-content ul {
