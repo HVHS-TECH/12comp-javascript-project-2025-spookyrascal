@@ -1,13 +1,3 @@
-/*
- References
-  -------------------------------
-  - DOMContentLoaded listener & game loop pattern: Based on common structure used in JS browser games (MDN, W3Schools)
-  - requestAnimationFrame for looping: https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
-  - Collision detection (AABB): https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-  - Image loading and drawing: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
-  - Event handling (keydown/keyup): https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event
-  - Game UI elements via modal/popups: https://www.w3schools.com/howto/howto_css_modals.asp
-*/
 // 🎮 Grab everything we need from the page (buttons, canvas, etc)
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
