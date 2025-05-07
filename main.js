@@ -111,10 +111,13 @@ function handleObstacles() {
     });
   }
 
-  obstacles = obstacles.filter(rock => {
-    rock.x -= rock.speed; // Move the rock
-    ctx.drawImage(meteorImg, rock.x, rock.y, rock.w, rock.h);
+  for (let i = 0; i < obstacles.length; i++) {
+  let rock = obstacles[i];
+  rock.x -= rock.speed;
+  ctx.drawImage(meteorImg, rock.x, rock.y, rock.w, rock.h);
+  }
 
+  obstacles = obstacles.filter(rock => {
     let hit = (
       player.x < rock.x + rock.w &&
       player.x + player.w > rock.x &&
@@ -135,8 +138,8 @@ function handleObstacles() {
     score++; // Increase score if rock is dodged
     return false;
   });
-}
 
+} 
 // 📝 Display score and lives
 function drawText() {
   ctx.font = '30px Arial';
